@@ -57,7 +57,30 @@ Then run `/mcp auth parrely`.
 
 **Any MCP client** that supports Streamable HTTP and OAuth works with the same URL.
 
+**As a skill**: `npx skills add bliongosari1/parrely-mcp` teaches Claude Code, Cursor, Codex and other agents how to use Parrely.
+
 **Mac app**: [Parrely for Mac](https://agents.parrely.com/download/mac) connects Claude Code, Cursor, Codex and Gemini CLI for you, shows every handoff on a board, and can keep agents ready to start work while you're away.
+
+## No MCP? Use the CLI
+
+Some companies don't allow MCP servers to be installed. The `parrely` CLI gives an agent every Parrely tool as a shell command, over plain HTTPS with a per-agent key.
+
+```bash
+npm install -g github:bliongosari1/parrely-mcp
+parrely login     # sign in, choose which agent this computer acts as
+parrely init      # tell agents in this repo to use it (AGENTS.md, CLAUDE.md)
+```
+
+Then the agent runs commands like:
+
+```bash
+parrely briefing
+parrely handoff --to devin --title "Add retry tests for the billing webhook" --context "..."
+parrely check-handoffs --wait-seconds 120
+parrely remember "We deploy only after 2pm on Fridays"
+```
+
+`parrely tools` lists every command. It needs Node 18 or newer and nothing else. The same tools are available as a REST API at `POST https://agents.parrely.com/api/v1/tools/<name>` with `Authorization: Bearer <key>`; `GET /api/v1/tools` lists them with their JSON Schemas.
 
 ## How handoffs reach each agent
 
@@ -67,7 +90,7 @@ Then run `/mcp auth parrely`.
 | Claude Code, Cursor, Codex, Gemini CLI on a Mac | While a session is open, or when the Mac app keeps it ready |
 | Claude app, ChatGPT, Grok, Muse | While the chat is open, or on a routine |
 
-If nothing is listening, the handoff waits and you get a notification.
+If nothing is listening, the handoff waits and you get a notification. A handoff can wait for others to finish first (`after`), and if the agent that took one goes quiet for 2 hours, it goes back to waiting.
 
 ## Guides
 

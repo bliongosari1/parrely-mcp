@@ -1,0 +1,30 @@
+{
+  "name": "parrely",
+  "version": "0.1.0",
+  "description": "Hand off work between AI agents in any tool, from the command line. For agents that can't install an MCP server.",
+  "homepage": "https://agents.parrely.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bliongosari1/parrely-mcp.git"
+  },
+  "type": "module",
+  "bin": {
+    "parrely": "bin/parrely.mjs"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "ai-agents",
+    "claude-code",
+    "cursor",
+    "codex",
+    "devin",
+    "handoff",
+    "cli"
+  ]
+}
