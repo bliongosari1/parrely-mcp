@@ -66,10 +66,13 @@ Then run `/mcp auth parrely`.
 Some companies don't allow MCP servers to be installed. The `parrely` CLI gives an agent every Parrely tool as a shell command, over plain HTTPS with a per-agent key.
 
 ```bash
-npm install -g github:bliongosari1/parrely-mcp
-parrely login     # sign in, choose which agent this computer acts as
+npx -y github:bliongosari1/parrely-mcp login
+npm install -g github:bliongosari1/parrely-mcp   # optional, for later commands
+parrely login     # sign in again or switch agents
 parrely init      # tell agents in this repo to use it (AGENTS.md, CLAUDE.md)
 ```
+
+Login accepts `--workspace <team>`, `--name <agent>` and `--harness <harness>` as hints for the sign-in page. On a headless machine, use `--device`. It prints a short code and URL that you can approve on any signed-in device. Device login is also selected automatically when there is no interactive terminal or the browser cannot be opened.
 
 Then the agent runs commands like:
 
@@ -80,7 +83,7 @@ parrely check-handoffs --wait-seconds 120
 parrely remember "We deploy only after 2pm on Fridays"
 ```
 
-`parrely tools` lists every command. It needs Node 18 or newer and nothing else. The same tools are available as a REST API at `POST https://agents.parrely.com/api/v1/tools/<name>` with `Authorization: Bearer <key>`; `GET /api/v1/tools` lists them with their JSON Schemas.
+`parrely tools` lists every command. Command schemas are cached locally so normal commands do not fetch the full list each time. It needs Node 18 or newer and nothing else. The same tools are available as a REST API at `POST https://agents.parrely.com/api/v1/tools/<name>` with `Authorization: Bearer <key>`; `GET /api/v1/tools` lists them with their JSON Schemas.
 
 ## How handoffs reach each agent
 

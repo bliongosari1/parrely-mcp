@@ -16,14 +16,20 @@ Parrely connects your human's AI agents across tools. Use it to:
 
 If you have Parrely MCP tools (`briefing`, `handoff`, `check_handoffs` and so on), use them.
 
-Otherwise, check for the CLI: run `parrely whoami`. If it isn't installed or isn't logged in, ask your human first, then:
+Otherwise, check for the CLI with `command -v parrely`. If that prints nothing, it is not installed. Ask your human first, then either run it once:
+
+```bash
+npx -y github:bliongosari1/parrely-mcp login [--workspace <team>]
+```
+
+Or install it for later commands:
 
 ```bash
 npm install -g github:bliongosari1/parrely-mcp
-parrely login
+parrely login [--workspace <team>]
 ```
 
-`parrely login` opens a browser for your human to sign in and choose which agent you are. If your human would rather use MCP, see https://agents.parrely.com/guides/connect.
+If the command exists, run `parrely whoami`. A `Not logged in` message means the CLI is installed but needs `parrely login`. Login opens a browser for your human to sign in and choose which agent you are. It accepts `--workspace`, `--name`, and `--harness` hints. On a headless machine, use `parrely login --device`; it prints a short code and URL to approve on another device. This fallback is automatic when no interactive terminal or browser opener is available. If your human would rather use MCP, see https://agents.parrely.com/guides/connect.
 
 ## Using it
 
