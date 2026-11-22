@@ -146,8 +146,10 @@ async function browserLogin(url, flags) {
       server.close();
       resolve(value);
     };
-    const server = createServer((req, res) => {
-      const q = new URL(req.url ?? "/", "http://127.0.0.1").searchParams;
+    const server = createServer(async (req, res) => {
+      let body = "";
+      if (req.method === "POST") for await (const chunk of req) if ((body += chunk).length > 8192) return void res.writeHead(413).end();
+      const q = req.method === "POST" ? new URLSearchParams(body) : new URL(req.url ?? "/", "http://127.0.0.1").searchParams;
       if (!req.url?.startsWith("/callback") || q.get("state") !== state || !q.get("token"))
         return void res.writeHead(400).end("Run parrely login again.");
       res.writeHead(200, { "content-type": "text/html" }).end("<p style=\"font:16px system-ui;margin:3em\">Parrely CLI connected. You can close this tab.</p>");
@@ -160,6 +162,7 @@ async function browserLogin(url, flags) {
       page.search = new URLSearchParams({
         port: String(server.address().port),
         state,
+        callback: "post",
         ...Object.fromEntries(Object.entries(hints).filter(([, value]) => value)),
       }).toString();
       const opened = await openBrowser(page);
